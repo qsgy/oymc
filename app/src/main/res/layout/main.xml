@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/ip_lay"
+        android:layout_alignParentTop="true"
+        android:gravity="center">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="IP:"
+            android:textSize="35sp"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"/>
+
+        <EditText
+            android:id="@+id/ip_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="9"
+            android:inputType="textUri" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="未连接"
+            android:background="#FFFFFF"
+            android:textSize="25sp"
+            android:textColor="#B22E07"
+            android:paddingLeft="10dp"
+            android:id="@+id/isConnected"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_below="@id/ip_lay"
+        android:gravity="center"
+        android:id="@+id/port_lay">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="PORT:"
+            android:textSize="25sp"/>
+
+        <EditText
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:ems="9"
+            android:inputType="number"
+            android:singleLine="true"
+            android:hint="8080"
+            android:maxLines="1"
+            android:maxEms="5"
+            android:id="@+id/port_value"/>
+
+        <Button
+            android:id="@+id/Connect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="连接"
+            android:onClick="Connect"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/consolve">
+
+        <EditText
+            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:ems="12"
+            android:lines="3"
+            android:id="@+id/send_message"/>
+
+        <Button
+            android:id="@+id/send_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="Send"
+            android:text="发送" />
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Text"
+        android:layout_below="@id/port_lay"
+        android:layout_above="@id/consolve"
+        android:id="@+id/list"
+        />
+
+</RelativeLayout>
