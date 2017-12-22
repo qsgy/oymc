@@ -8,6 +8,6 @@ package com.qsgy.oymc.BaseClass;
 public interface SendProvider {
     boolean isReady();
     void over();
-    String[] SendM();
+    String SendM();
 
 }

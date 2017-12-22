@@ -11,27 +11,34 @@ import com.qsgy.oymc.ControlActivity;
 
 public class LoopSender implements Runnable {
     SendProvider provider;
-    long loopTime=100;//循环跑的的间断时间
+    String sendS="";
+    long loopTime=150;//循环跑的的间断时间
     public LoopSender(SendProvider provider){
         this .provider=provider;
     }
+   // int exCount=3;
     @Override
     public void run() {
         while (true) {
-            if (provider.isReady()) {
-                String[] sendS=new String[provider.SendM().length];
+            if (provider.isReady()||sendS!=provider.SendM()) {
+
+
                sendS=provider.SendM();
-                for(int i=0;i<sendS.length;i++)
-                {
-                    ((ControlActivity) ControlActivity.context).SendLight(sendS[i]);
+                    if (sendS!="111") {
+                        ((ControlActivity) ControlActivity.context).SendLight(sendS);
+                    }
                     try {
                         Thread.currentThread().sleep(loopTime);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }
 
+                   /* if (exCount==0){
+                        exCount=3;
+                    }
+                    exCount--;*/
                 provider.over();//已经发送了信息
+
             }
             try {
                 Thread.currentThread().sleep(loopTime);

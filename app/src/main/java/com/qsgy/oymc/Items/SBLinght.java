@@ -12,6 +12,9 @@ import com.qsgy.oymc.R;
 import com.qsgy.oymc.tools.LoopSender;
 import com.qsgy.oymc.tools.StringHelper;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class SBLinght implements SendProvider
 {
     public TextView valueText;
@@ -22,7 +25,7 @@ public class SBLinght implements SendProvider
     public Boolean isAuto;//是否自动亮度
     String type;//
     boolean isReady=false;//is ready to send message?
-    private String[] sendM={"111"};//send what
+    private String sendM="111";//send what
     public SBLinght(View convertView) {
         valueText = (TextView) convertView.findViewById(R.id.light_lv);
         seekBar = (SeekBar) convertView.findViewById(R.id.lv_bar);
@@ -40,8 +43,16 @@ public class SBLinght implements SendProvider
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 valueText.setText(seekBar.getProgress()+"lv");
-                sendM[0]=type+StringHelper.Send_Format_W255(""+seekBar.getProgress());
-                isReady=true;
+                sendM=type+StringHelper.Send_Format_W255(""+seekBar.getProgress());
+                synchronized (this){
+                    isReady=true;
+                }
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        isReady=true;
+                    }
+                },50);
            // ((ControlActivity)ControlActivity.context).SendLight(type+mess);
             }
 
@@ -52,7 +63,9 @@ public class SBLinght implements SendProvider
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                synchronized (this){
+                    isReady=true;
+                }
             }
         });
     }
@@ -66,11 +79,13 @@ public class SBLinght implements SendProvider
 
     @Override
     public void over() {
-        isReady=false;
+
+            isReady=false;
+
     }
 
     @Override
-    public String[] SendM() {
+    public String SendM() {
         return sendM;
     }
 }

@@ -7,17 +7,20 @@ import android.widget.SeekBar;
 import com.qsgy.oymc.tools.LoopSender;
 import com.qsgy.oymc.tools.StringHelper;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Created by 欧阳浩 on 2017/12/19.
  */
 
 public class ColorTemper extends SBLinght
 {
-    private String[] sendM=new String[ ]{""};
+    private String sendMM="";
     @RequiresApi(api = 26)
     public ColorTemper(View convertView) {
         super(convertView);
-        seekBar.setMax(4000);
+        seekBar.setMax(100);
 
     }
 
@@ -31,13 +34,18 @@ public class ColorTemper extends SBLinght
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                valueText.setText((seekBar.getProgress()+3000)+"K");
-                sendM[0]="C"+ StringHelper.Send_Format_W255(""+seekBar.getProgress()/4000);
+                valueText.setText((seekBar.getProgress()*40+3000)+"K");
+                sendMM="C"+ StringHelper.Send_Format_W255(""+seekBar.getProgress());
 
         synchronized (this){
             isReady=true;
         }
-
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        isReady=true;
+                    }
+                },50);
             }
 
             @Override
@@ -47,13 +55,15 @@ public class ColorTemper extends SBLinght
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                synchronized (this){
+                    isReady=true;
+                }
             }
         });
     }
 
     @Override
-    public String[] SendM() {
-        return sendM;
+    public String SendM() {
+        return sendMM;
     }
 }
